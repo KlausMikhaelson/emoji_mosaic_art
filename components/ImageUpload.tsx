@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 
 export default function ImageUpload ({onUpload} : {onUpload: (url: string) => void}) {
     const [uploading, setUploading] = useState(false);
@@ -12,16 +11,13 @@ export default function ImageUpload ({onUpload} : {onUpload: (url: string) => vo
             }
 
             const file = event.target.files[0];
-            const fileExt = file.name.split(".").pop();
-            const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `${fileName}`;
+            const reader = new FileReader();
 
-            const {error: uploadError} = await supabase.storage.from("images").upload(filePath, file);
-            if(uploadError) {
-                throw uploadError;
-            }
+            reader.onloadend = () => {
+                onUpload(reader.result as string);
+            };
 
-            onUpload(filePath);
+            reader.readAsDataURL(file);
         } catch (error) {
             console.error("Error uploading image", error);
             alert("Error uploading image");
