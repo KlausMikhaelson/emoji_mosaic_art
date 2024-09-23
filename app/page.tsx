@@ -1,7 +1,6 @@
 "use client"
 import imageCompression from 'browser-image-compression';
-import ImageUpload from "@/components/ImageUpload";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { generateEmojiMosaic } from "@/lib/mosaicGeneration";
 import EmojiMosaic from "@/components/EmojiMosaic";
 import { FileUpload } from "@/components/file-upload";
